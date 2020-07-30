@@ -1,0 +1,171 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+if(!require(pacman))install.packages("pacman")
+
+pacman::p_load('dplyr', 'tidyr', 'gapminder',
+               'ggplot2',  'ggalt',
+               'forcats', 'R.utils', 'png', 
+               'grid', 'ggpubr', 'scales',
+               'bbplot')
+
+install.packages('ggridges')
+install.packages('devtools')
+devtools::install_github('bbc/bbplot')
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+df <- read.csv("https://query.data.world/s/iwxdl7w5wg3zd5cpasrca3pmsn3wp4", header=TRUE, stringsAsFactors=FALSE)
+```
+
+```{r}
+colnames(df)[4] = "Seat.Proportion"
+head(df)
+```
+
+```{r}
+df %>%
+  group_by(Year) %>%
+  summarise(avg = mean(Seat.Proportion, na.rm = TRUE)) %>%
+  ggplot(aes(x=Year, y=avg)) +
+    geom_line()
+```
+
+
+```{r}
+ggplot() +
+  geom_line(data = df, aes(x = Year, y = Seat.Proportion, group = Country.Name), colour = 'grey') +
+  geom_line(data = subset(df, Country.Name == 'United Kingdom'), aes(x = Year, y = Seat.Proportion), colour = 'red') +
+  theme(legend.position = "none")
+```
+
+```{r}
+library(ggridges)
+library(forcats)
+df %>%
+  subset(Year %in% c(1999, 2004, 2009, 2014, 2019)) %>%
+  ggplot() +
+    geom_density_ridges(aes(x = Seat.Proportion, y = forcats::fct_rev(factor(Year)))) +
+    theme_ridges() + 
+    theme(legend.position = "none")
+```
+
+```{r, fig.width=10, fig.height=11}
+library(bbplot)
+
+df %>%
+  group_by(Year) %>%
+  summarise(q1 = quantile(Seat.Proportion, probs = 0.25, na.rm = TRUE),
+            q2 = quantile(Seat.Proportion, probs = 0.5, na.rm = TRUE),
+            q3 = quantile(Seat.Proportion, probs = 0.75, na.rm = TRUE)) %>%
+  ggplot() +
+    geom_line(aes(x = Year, y = q3), linetype = 'dotted', color = "#555555", size = 1) +
+    geom_ribbon(aes(x = seq(1997, 2019, by=1), ymin=q3, ymax=0.5), alpha=0.05) +
+    geom_line(data = subset(df, Country.Name == 'United Kingdom'), aes(x = Year, y = Seat.Proportion), colour = '#873A86', size = 1) +
+    geom_label(aes(x = 2019, y = as.numeric(subset(df, Country.Name == 'United Kingdom' & Year == 2019)['Seat.Proportion']), label = "UK"), 
+               hjust = 0, 
+               vjust = 0.5, 
+               colour = '#873A86', 
+               fill = "white", 
+               label.size = NA, 
+               family="Helvetica", 
+               size = 4) +
+    geom_line(data = subset(df, Country.Name == 'Germany'), aes(x = Year, y = Seat.Proportion), colour = '#D4A91E', size = 1) +
+    geom_label(aes(x = 2019, y = as.numeric(subset(df, Country.Name == 'Germany' & Year == 2019)['Seat.Proportion']), label = "Germany"), 
+               hjust = 0, 
+               vjust = 0.5, 
+               colour = '#D4A91E', 
+               fill = "white", 
+               label.size = NA, 
+               family="Helvetica", 
+               size = 4) +
+    geom_line(data = subset(df, Country.Name == 'France'), aes(x = Year, y = Seat.Proportion), colour = '#2E41BF', size = 1) +
+    geom_label(aes(x = 2019, y = as.numeric(subset(df, Country.Name == 'France' & Year == 2019)['Seat.Proportion']), label = "France"), 
+               hjust = 0, 
+               vjust = 0.5, 
+               colour = '#2E41BF', 
+               fill = "white", 
+               label.size = NA, 
+               family="Helvetica", 
+               size = 4) +
+    geom_line(data = subset(df, Country.Name == 'Spain'), aes(x = Year, y = Seat.Proportion), colour = '#D64113', size = 1) +
+    geom_label(aes(x = 2019, y = as.numeric(subset(df, Country.Name == 'Spain' & Year == 2019)['Seat.Proportion']), label = "Spain"), 
+               hjust = 0, 
+               vjust = 0.5, 
+               colour = '#D64113', 
+               fill = "white", 
+               label.size = NA, 
+               family="Helvetica", 
+               size = 4) +
+    geom_line(data = subset(df, Country.Name == 'Italy'), aes(x = Year, y = Seat.Proportion), colour = '#099E85', size = 1) +
+    geom_label(aes(x = 2019, y = as.numeric(subset(df, Country.Name == 'Italy' & Year == 2019)['Seat.Proportion']), label = "Italy"), 
+               hjust = 0, 
+               vjust = 0.5, 
+               colour = '#099E85', 
+               fill = "white", 
+               label.size = NA, 
+               family="Helvetica", 
+               size = 4) +
+    scale_x_continuous(limits = c(1997, 2020)) +
+    scale_y_continuous(limits = c(0, 0.5),
+                       breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+                       labels = c('0%', '10%', '20%', '30%', '40%', '50%')) +
+    geom_label(aes(x = 2004, y = 0.235, label = "Top 25% \nGlobally"), 
+                             hjust = 0, 
+                             vjust = 0.5, 
+                             colour = "#555555", 
+                             fill = "white", 
+                             label.size = NA, 
+                             family="Helvetica", 
+                             size = 4) +
+    geom_curve(aes(x = 2017, y = 0.25, xend = 2019, yend = 0.315), arrow = arrow(length = unit(0.01, "npc")), curvature = -0.2, colour = "#555555", size=0.1) +
+    geom_label(aes(x = 2015, y = 0.25, label = "Less than one women,\nfor every two men"), 
+                           hjust = 0, 
+                           vjust = 0.8, 
+                           colour = "#555555", 
+                           fill = "white", 
+                           label.size = NA, 
+                           family="Helvetica", 
+                           size = 4) +
+    bbc_style() +
+    labs(title = 'Gender (In)equality',
+         subtitle = 'The European elite are amongst the most represented nations at a parliament level in the world by \nwomen. Despite this, there is still a long way to go before we can say we have achieved absolute \nparity between genders in positions of power.',
+         caption = 'Data Source: World Bank | Theme: BBC | Created by: Jack Tann (@jacktann3)') +
+    theme(plot.subtitle = element_text(family = "Helvetica", size = 15, margin = margin(9, 0, 9, 0)),
+          axis.text = element_text(family = "Helvetica", size = 15, color = "#222222"),
+          plot.caption = element_text(family = "Helvetica", size = 10, color = "#222222"))
+```
+
+```{r}
+df %>%
+  group_by(Year) %>%
+  summarise(q1 = quantile(Seat.Proportion, probs = 0.25, na.rm = TRUE),
+            q2 = quantile(Seat.Proportion, probs = 0.5, na.rm = TRUE),
+            q3 = quantile(Seat.Proportion, probs = 0.75, na.rm = TRUE))
+```
+
+```{r}
+seq(1997, 2019, by=1)
+```
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
