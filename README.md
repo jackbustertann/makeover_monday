@@ -20,7 +20,7 @@ Orignal Article: https://github.com/allisonhorst/palmerpenguins
 
 Tools used: Plotly, Dash
 
-<img src="/W28/W28..png"/> <br/><br/>
+<img src="/W28/W28.png"/> <br/><br/>
 
 ## Week 29, 2020
 
