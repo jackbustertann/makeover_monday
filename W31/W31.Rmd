@@ -1,0 +1,118 @@
+---
+title: "Untitled"
+output: html_document
+---
+```{r}
+install.packages('tidyverse')
+install.packages('geojsonio')
+
+devtools::install_github("ropenscilabs/rnaturalearth")
+```
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(geojsonio)
+library(rnaturalearth)
+library(sp)
+```
+
+```{r}
+energy_types <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-08-04/energy_types.csv')
+country_totals <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-08-04/country_totals.csv')
+```
+
+```{r}
+energy_types <- energy_types %>%
+  mutate(country_name = replace(country_name, country == 'UK', 'United Kingdom')) %>%
+  mutate(country_name = replace(country_name, country == 'EL', 'Greece')) %>%
+  mutate(type = stringr::str_to_title(type)) %>%
+  gather(year, production, '2016':'2018') %>%
+  select(-level)
+
+head(energy_types, 8)
+```
+
+```{r}
+country_totals <- country_totals %>%
+  mutate(country_name = replace(country_name, country == 'UK', 'United Kingdom')) %>%
+  mutate(country_name = replace(country_name, country == 'EL', 'Greece')) %>%
+  mutate(type = stringr::str_to_title(type)) %>%
+  gather(year, amount, '2016':'2018') %>%
+  select(-level)
+
+head(country_totals, 5)
+```
+
+```{r}
+energy_types %>%
+  subset(year == 2018) %>%
+  group_by(country_name) %>%
+  summarise(total_production = sum(production)) %>%
+  arrange(desc(total_production))
+```
+
+```{r}
+renewable_percents <- energy_types %>%
+  subset(year == 2018) %>%
+  mutate(category = ifelse(type == 'Conventional Thermal', 'Fossil Fuel', 'Renewable')) %>%
+  group_by(country_name, category) %>%
+  summarise(category_production = sum(production)) %>%
+  group_by(country_name)  %>%
+  mutate(total_production = sum(category_production), category_percent = round((category_production/total_production)*100, 1)) %>%
+  subset(category == 'Renewable') %>%
+  rename(renewable_production = category_production, renewable_percent = category_percent) %>%
+  arrange(desc(renewable_production)) %>%
+  select(country_name, renewable_percent)
+```
+
+
+```{r}
+country_totals %>%
+  subset(year == 2018 & type %in% c('Total Net Production', 'Imports')) %>%
+  spread(type, amount) %>%
+  rename(total_energy = 'Total Net Production', imported_energy = 'Imports') %>%
+  mutate(imported_percent = round((imported_energy/total_energy)*100, 1)) %>%
+  arrange(desc(imported_percent)) %>%
+  select(country_name, imported_percent)
+```
+
+```{r}
+europe_map <- ne_countries(continent = "Europe", scale = "medium", returnclass = "sf")
+```
+
+```{r}
+renewable_percents %>%
+  anti_join(europe_map, by = c('country_name' = 'name'))
+```
+
+```{r}
+filter(europe_map, continent == 'Europe')$name
+```
+
+
+```{r}
+europe_map_merged <- europe_map %>%
+  select(name, geometry) %>%
+  mutate(name = case_when(name == 'Bosnia and Herz.' ~ 'Bosnia & Herzegovina', name == 'Macedonia' ~ 'North Macedonia', TRUE ~ name)) %>%
+  inner_join(renewable_percents, by = c('name' = 'country_name'))
+```
+
+```{r}
+europe_map_merged$renewable_percent
+```
+
+
+```{r}
+ggplot(europe_map_merged) + 
+  geom_sf(aes(fill=renewable_percent), show.legend = FALSE) + 
+  coord_sf(xlim = c(-10, 40), ylim = c(35, 70)) 
+```
+
+
+```{r}
+summary(renewable_percents)
+```
+

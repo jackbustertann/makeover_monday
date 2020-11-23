@@ -1,0 +1,33 @@
+,type,region,year,sales
+0,hardware,Japan,2017,60
+1,hardware,The Americas,2017,120
+2,hardware,Europe,2017,76
+3,hardware,Other,2017,18
+4,software,Japan,2017,89
+5,software,The Americas,2017,286
+6,software,Europe,2017,142
+7,software,Other,2017,29
+8,hardware,Japan,2018,378
+9,hardware,The Americas,2018,594
+10,hardware,Europe,2018,379
+11,hardware,Other,2018,154
+12,software,Japan,2018,1226
+13,software,The Americas,2018,2752
+14,software,Europe,2018,1917
+15,software,Other,2018,456
+16,hardware,Japan,2019,385
+17,hardware,The Americas,2019,688
+18,hardware,Europe,2019,455
+19,hardware,Other,2019,169
+20,software,Japan,2019,2148
+21,software,The Americas,2019,5394
+22,software,Europe,2019,3516
+23,software,Other,2019,797
+24,hardware,Japan,2020,521
+25,hardware,The Americas,2020,811
+26,hardware,Europe,2020,534
+27,hardware,Other,2020,237
+28,software,Japan,2020,3256
+29,software,The Americas,2020,7428
+30,software,Europe,2020,5017
+31,software,Other,2020,1171
