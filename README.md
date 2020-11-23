@@ -22,22 +22,22 @@ Tools used: Seaborn, Plotly, Dash
 
 <img src="/W28/W28.png"/> <br/><br/>
 
-## Week 29, 2020
+## Week 46, 2020
 
-Datasource: https://query.data.world/s/naxioqawbltcvymafqvkoztq7supwg
+Datasource: https://query.data.world/s/wty7u6f7ifsjfrvdflajg6kp5andtj
 
-Original Article: https://www.pewresearch.org/global/2020/06/25/global-divide-on-homosexuality-persists/
+Orignal Article: https://www.visualcapitalist.com/majority-advertising-dollars-spent-online/
 
-Tools used: Matplotlib
+Tools used: Tableau
 
-<img src="/W29/W29.png"/> <br/><br/>
+<img src="/W46/W46.png"/> <br/><br/>
 
-## Week 30, 2020
+## Week 47, 2020
 
-Datasource: https://query.data.world/s/tapki6kghjvc6nc7ecuuq6wjbfpik6
+Datasource: https://query.data.world/s/u54zfsdjz7rx6sqn5xbfmh2zpdcucf
 
-Tools used: ggplot2
+Original Article: https://fred.stlouisfed.org/series/GFDEBTN
 
-<img src="/W30/W30.png"/> <br/><br/>
+Tools used: Tableau
 
-
+<img src="/W47/W47.png"/> <br/><br/>
