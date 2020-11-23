@@ -18,7 +18,7 @@ Datasource: https://query.data.world/s/yn3nlakytapmr45wuci2ewqm6oshub
 
 Orignal Article: https://github.com/allisonhorst/palmerpenguins
 
-Tools used: Plotly, Dash
+Tools used: Seaborn, Plotly, Dash
 
 <img src="/W28/W28.png"/> <br/><br/>
 
@@ -31,3 +31,13 @@ Original Article: https://www.pewresearch.org/global/2020/06/25/global-divide-on
 Tools used: Matplotlib
 
 <img src="/W29/W29.png"/> <br/><br/>
+
+## Week 30, 2020
+
+Datasource: https://query.data.world/s/tapki6kghjvc6nc7ecuuq6wjbfpik6
+
+Tools used: ggplot2
+
+<img src="/W30/W30.png"/> <br/><br/>
+
+
