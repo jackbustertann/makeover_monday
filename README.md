@@ -41,3 +41,13 @@ Original Article: https://fred.stlouisfed.org/series/GFDEBTN
 Tools used: Tableau
 
 <img src="/W47/W47.png"/> <br/><br/>
+
+## Week 51, 2020
+
+Datasource: https://query.data.world/s/3bby4smgiromwbnqkrc3xl6pd6zqjn
+
+Original Article: https://www.reddit.com/r/soccer/comments/k5vya1/this_is_arsenals_worst_ever_start_to_a_premier/
+
+Tools used: Tableau
+
+<img src="/W51/W51.png"/> <br/><br/>
