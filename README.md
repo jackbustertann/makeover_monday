@@ -28,7 +28,7 @@ Datasource: https://query.data.world/s/wty7u6f7ifsjfrvdflajg6kp5andtj
 
 Orignal Article: https://www.visualcapitalist.com/majority-advertising-dollars-spent-online/
 
-Tools used: Tableau
+Tools used: Tableau, Python
 
 <img src="/W46/W46.png"/> <br/><br/>
 
@@ -48,6 +48,16 @@ Datasource: https://query.data.world/s/3bby4smgiromwbnqkrc3xl6pd6zqjn
 
 Original Article: https://www.reddit.com/r/soccer/comments/k5vya1/this_is_arsenals_worst_ever_start_to_a_premier/
 
-Tools used: Tableau
+Tools used: Tableau, Python
 
 <img src="/W51/W51.png"/> <br/><br/>
+
+## Week 1, 2021
+
+Datasource: https://query.data.world/s/xt4kwiptnt2s3lx5axxqmtce2l54oq
+
+Original Article: https://www.bbc.com/future/bespoke/made-on-earth/the-great-bicycle-boom-of-2020.html
+
+Tools used: Tableau, Python
+
+<img src="/W01/W01.png"/> <br/><br/>
